@@ -40,6 +40,7 @@ def gap():
     print()
 menu() # calls the function
 varTxt = "Failure try again, you have one more chance."
+varTxt2 = "Failure try again, you have {} more chance."
 varChoice = str(input())
 while varChoice != "EX":
     if varChoice  == "E1":
@@ -50,15 +51,15 @@ while varChoice != "EX":
         if varAnswer == "34":
             print("Congratulatious you may proceed to next encounter") # tests if the user answered the question correctly if not gives them two more chances at redemption
             varChoice = "E2"
-        else:# (technique from website)
+        else:# (technique from website) if else statement
             print("Failure try again, you have two more chances.")# see earlier comment
             varAnswer = str(input())
             if varAnswer == "34":
                 print("Congratulatious you may proceed to next encounter")
                 varChoice = "E2"
             else:
-                if "Failure" in varTxt:# (technique from website)
-                    print("Failure try again, you have one more chance.")# see earlier comment
+                if "Failure" in varTxt:# (technique from website) check string
+                    print(varTxt2.format("one"))# (technique from website) format strings to insert characters
                     varAnswer = str(input())
                     if varAnswer == "34":
                         print("Congratulatious you may proceed to next encounter")# see earlier comment
@@ -70,9 +71,9 @@ while varChoice != "EX":
     if varChoice  == "E2":
         gap()# tests if the user answered the question correctly if not gives them two more chances at redemption
         print("""You have passed the Math Challenge and now the time has come to test your pop-culture knowledge,
-        Complete this phase, '_ _ _ shot first'""")
-        varAnswer = str(input())# (technique from website)^^^^^
-        varAnswer = varAnswer.lower()# (technique from website)
+        Complete this phase, \"_ _ _ shot first\"""")
+        varAnswer = str(input())# (2 techniques from website)^^^^^ escape chracters \" and mutliples lines of text in a print statement
+        varAnswer = varAnswer.lower()# (technique from website) modifying the string to lower case
         if varAnswer == "han":
             print("You have passed this encounter, you may procede to the final enocunter.") # allows them passge to the final encounter by changing the value of varChoice
             varChoice = "E3"
@@ -122,7 +123,7 @@ while varChoice != "EX":
                     print()
                     print("Interesting, you have completed the trials, you may leave.")
                 else:
-                    print(varTxt[0:7])
+                    print(varTxt[0:7])# (technique from website) slices to the string to only print part of it
                     break
 
     if varChoice  == "S":
