@@ -39,6 +39,7 @@ def gap():
     print()
     print()
 menu() # calls the function
+varTxt = "Failure try again, you have one more chance."
 varChoice = str(input())
 while varChoice != "EX":
     if varChoice  == "E1":
@@ -49,28 +50,29 @@ while varChoice != "EX":
         if varAnswer == "34":
             print("Congratulatious you may proceed to next encounter") # tests if the user answered the question correctly if not gives them two more chances at redemption
             varChoice = "E2"
-        else:
+        else:# (technique from website)
             print("Failure try again, you have two more chances.")# see earlier comment
             varAnswer = str(input())
             if varAnswer == "34":
                 print("Congratulatious you may proceed to next encounter")
                 varChoice = "E2"
             else:
-                print("Failure try again, you have one more chance.")# see earlier comment
-                varAnswer = str(input())
-                if varAnswer == "34":
-                    print("Congratulatious you may proceed to next encounter")# see earlier comment
-                    varChoice = "E2"
-                else:
-                    print("Failure.")
-                    break
+                if "Failure" in varTxt:# (technique from website)
+                    print("Failure try again, you have one more chance.")# see earlier comment
+                    varAnswer = str(input())
+                    if varAnswer == "34":
+                        print("Congratulatious you may proceed to next encounter")# see earlier comment
+                        varChoice = "E2"
+                    else:
+                        print("Failure.")
+                        break
 
     if varChoice  == "E2":
-        gap()
-        print("You have passed the Math Challenge and now the time has come to test your pop-culture knowledge") # tests if the user answered the question correctly if not gives them two more chances at redemption
-        print("Complete this phase, '_ _ _ shot first'")
-        varAnswer = str(input())
-        varAnswer = varAnswer.lower()
+        gap()# tests if the user answered the question correctly if not gives them two more chances at redemption
+        print("""You have passed the Math Challenge and now the time has come to test your pop-culture knowledge,
+        Complete this phase, '_ _ _ shot first'""")
+        varAnswer = str(input())# (technique from website)^^^^^
+        varAnswer = varAnswer.lower()# (technique from website)
         if varAnswer == "han":
             print("You have passed this encounter, you may procede to the final enocunter.") # allows them passge to the final encounter by changing the value of varChoice
             varChoice = "E3"
@@ -120,7 +122,7 @@ while varChoice != "EX":
                     print()
                     print("Interesting, you have completed the trials, you may leave.")
                 else:
-                    print("Failure.")
+                    print(varTxt[0:7])
                     break
 
     if varChoice  == "S":
