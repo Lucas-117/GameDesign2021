@@ -57,20 +57,16 @@ while varChoice != "EX":
         if varAnswer == "34":
             print("Congratulatious you may proceed to next encounter") # tests if the user answered the question correctly if not gives them two more chances at redemption
             varChoice = "E2"
-            print("do you want to change levels?")
-            varDecision = str(input())
-            if varDecision == "yes":
-                varChoice = "x"
+            gamePause()
+            varChoice = gamePause()
         else:# (technique from website) if else statement
             print("Failure try again, you have two more chances.")# see earlier comment
             varAnswer = str(input())
             if varAnswer == "34":
                 print("Congratulatious you may proceed to next encounter")
                 varChoice = "E2"
-                print("do you want to change levels?")
-                varDecision = str(input())
-                if varDecision == "yes":
-                    varChoice = "x"
+                gamePause()
+                varChoice = gamePause()
             else:
                 if "Failure" in varTxt:# (technique from website) check string
                     print(varTxt2.format("one"))# (technique from website) format strings to insert characters
@@ -78,10 +74,8 @@ while varChoice != "EX":
                     if varAnswer == "34":
                         print("Congratulatious you may proceed to next encounter")# see earlier comment
                         varChoice = "E2"
-                        print("do you want to change levels?")
-                        varDecision = str(input())
-                        if varDecision == "yes":
-                            varChoice = "x"
+                        gamePause()
+                        varChoice = gamePause()
                     else:
                         print("Failure.")
                         break
@@ -95,30 +89,24 @@ while varChoice != "EX":
         if varAnswer == "han":
             print("You have passed this encounter, you may procede to the final enocunter.") # allows them passge to the final encounter by changing the value of varChoice
             varChoice = "E3"
-            print("do you want to change levels?")
-            varDecision = str(input())
-            if varDecision == "yes":
-                varChoice = "x"
+            gamePause()
+            varChoice = gamePause()
         else:
             print("Failure try again, you have two more chances.")
             varAnswer = str(input())
             if varAnswer == "han":
                 print("You have passed this encounter, you may procede to the final enocunter.")
                 varChoice = "E3"
-                print("do you want to change levels?")
-                varDecision = str(input())
-                if varDecision == "yes":
-                    varChoice = "x"
+                gamePause()
+                varChoice = gamePause()
             else:
                 print("Failure try again, you have one more chance.")
                 varAnswer = str(input())
                 if varAnswer == "han":
                     print("You have passed this encounter, you may procede to the final enocunter.")
                     varChoice = "E3"
-                    print("do you want to change levels?")
-                    varDecision = str(input())
-                    if varDecision == "yes":
-                        varChoice = "x"
+                    gamePause()
+                    varChoice = gamePause()
                 else:
                     print("Failure.")
                     break
