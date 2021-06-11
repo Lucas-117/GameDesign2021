@@ -1,5 +1,5 @@
 #lucas Williams
-# using six different list functions for homework
+# Challenge 3
 def menu():
     print("*"*29)
     print("*"," "*5,"1Append salvation"," "*1,"*") # prints a scoreboard (consider modifying later based on user input?)
