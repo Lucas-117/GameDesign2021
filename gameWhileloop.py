@@ -53,22 +53,29 @@ menu() # calls the function
 varTxt = "Failure try again, you have one more chance."
 varTxt2 = "Failure try again, you have {} more chance."
 while varChoice != "EX":
-    x=menu()
-    if (x==1):
-        convert = True #boolean Variable True or False
+    x=menu()    #this is a function call expexcting a return value
+    if (x==1):  #if statement are selection or branching
+        convert = True #boolean local/Variable
         while convert:
             print("You are in level 1")
             print("Please enter a phrase in lower case")
-            answer = input()
+            answer = input() #input is a function that returns a string
             answer = answer.capitalize() #update your variable to the new changes
         #print(answer.capitalize())
             print(answer)
             convert = pause()
 
-        # Let the user stay in the level and reuse it many times until they wan
+        # Let the user stay in the level and reuse it many times until they want to get back to the main menu
     if (x==2):
-        print("Level 2 ")
-
+        print("Level 2 Chosen")
+        convert=True    #boolean variable
+        while convert:
+            print("Please enter a phrase in lower case")
+            answer = input() #input is a function that returns a string
+            answer = answer.capitalize() #update your variable to the new changes
+        #print(answer.capitalize())
+            print(answer)
+            convert = pause()
 
 
 
