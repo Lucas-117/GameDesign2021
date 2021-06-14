@@ -32,7 +32,7 @@ while "Y" in answer:
         for x in range(0,counter-1):
             if newGuess in word[x]:
                 varOccurences += 1
-                print("it worked")
+                #print("it worked")
         if newGuess in word: #going to have to check if it appears more than once in the word(the letter)
             counter -= varOccurences # going to need to replace this with a var that counts how many times the letter appears in the word.
             guesses += newGuess   #guesses= guesses+newGuesses
