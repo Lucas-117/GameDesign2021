@@ -49,6 +49,13 @@
 
 import random
 
+def updateWord(word): #function with a parameter
+    for char in word:
+        if char in guesses:
+            print(char,ends='') #doesn't work prints nothing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        else:
+            print('_', end =' ')
+
 gameWords= ['python','java','trackpad','computer','keyboard','geeks','laptop','headphones','charger','mouse','software','hardware']
 name = input("What is your name?")
 print(name, end= " ")
@@ -58,31 +65,31 @@ print("\n",gameWords) #delete when code works properly
 while "Y" in answer:
     print(name,"Good luck")
     word=random.choice(gameWords)
+    updateWord(word)
     print(word)
     answer="n"
     turns=10 # find better way to create turns in future
     guesses=''
     counter=len(word)
-    var3 = len(word)
-    var1 = 0
     while turns >0 and counter>0:
-        for char in word:
-            if char in guesses:
-                print(char, end=' ')
-            else:
-                print('_',end=' ')
         newGuess=input("\n\nGive me a letter")
-        if newGuess not in word:
-            turns -=1   # turns = turns = -1
-            print("Wrong! You have ", turns, "guesses left")
+        if newGuess not in guesses:
+            if newGuess not in word:
+                turns -=1   # turns = turns = -1
+                print("Wrong! You have ", turns, "guesses left")
+            else:
+                counter -=word.count(newGuess) # delete repeated letters
+                print("nice guess!")
+            guesses += newGuess
         else:
-            counter -=word.count(newGuess) # delete repeated letters
-            print("nice guess!")
-            var1 += word.count(newGuess)
-        guesses += newGuess
-    print("this is it,",var1)
-    var1 = 0
-    # score +=1
+            print("You already used this letter.")
+    if counter ==0:
+        print("\nAmazing you are the Champion")
+        score += 1
+        
+    else:
+        print("Sorry, try harder next time")
+    updateWord(word)
     answer = input("Do you want to play again?").upper()
 print(name,""" thank you for playing!
 You got""", score, "points")
