@@ -52,7 +52,7 @@ import random
 def updateWord(word): #function with a parameter
     for char in word:
         if char in guesses:
-            print(char,ends='') #doesn't work prints nothing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            print(char,ends='') #doesn't work prints nothing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! couldn't ask today ran out of time
         else:
             print('_', end =' ')
 
