@@ -1,2 +1,7 @@
       Score Board
 
+
+THe highest score is 1
+THe highest score is 0
+y6/15/2021	Tuesday1
+Lucas	6/15/2021	Tuesday	1
