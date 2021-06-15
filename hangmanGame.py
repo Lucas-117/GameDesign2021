@@ -56,7 +56,7 @@ import datetime
 os.system('cls')
 #Global Variable
 gameWords= ['python','java','trackpad','computer','keyboard','geeks','laptop','headphones','charger','mouse','software','hardware']
-name = input("What is your name?")
+name = " "
 print(name, end= " ")
 # answer = input("Do you want to play?").upper()
 score = 0
@@ -68,7 +68,8 @@ def menu():
     print("*"*28)
     print("*"," "*3,"Choice 1 - Play"," "*4,"*")
     print("*"," "*3,"Choice 2 = Scores"," "*2,"*")
-    print("*"," "*3,"Choice 3 = Exit"," "*4,"*")
+    print("*"," "*3,"#3 = Change Player"," "*1,"*")
+    print("*"," "*3,"Choice 4 = Exit"," "*4,"*")
     print("*"*28)
     return input("What is your choice? 1,2, or 3?")
 def updateWord(word, guesses): #function with a parameter
@@ -121,6 +122,9 @@ def playGame(answer, score):
             print("Sorry, try harder next time")
         answer = input("Do you want to play again?").upper()
     updateScore(score)
+
+
+
 #your main program
 check=True
 while check:
@@ -134,6 +138,10 @@ while check:
         printScore()
         time.sleep(6)
         os.system('cls')
+    elif "3" in varChoice:
+        name = input("What is your name?")
+        time.sleep(2)
+        os.system('clr')
     else:
         print("Thank you!")
         check=False
@@ -162,6 +170,3 @@ while check:
 # find a way to decide if the person won the game or not 
 # keep a count of how many words they gussed   
 # ask user if the want to play again
-
-
-# Start my main program
