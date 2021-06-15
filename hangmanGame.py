@@ -55,7 +55,7 @@ import datetime
 def updateWord(word): #function with a parameter
     for char in word:
         if char in guesses:
-            print(char,ends='') #doesn't work prints nothing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! couldn't ask today ran out of time
+            print(char,end='') #doesn't work prints nothing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! couldn't ask today ran out of time
         else:
             print('_', end =' ')
 
@@ -69,10 +69,10 @@ while "Y" in answer:
     print(name,"Good luck")
     word=random.choice(gameWords)
     print(word)
-    answer="n"
     turns=10 # find better way to create turns in future
     guesses=''
     counter=len(word)
+    updateWord(word)
     while turns >0 and counter>0:
         newGuess=input("\n\nGive me a letter")
         if newGuess not in guesses:
@@ -81,7 +81,7 @@ while "Y" in answer:
                 print("Wrong! You have ", turns, "guesses left")
             else:
                 counter -=word.count(newGuess) # delete repeated letters
-                print("nice guess!")
+                print("Nice guess!")
             guesses += newGuess
         else:
             print("You already used this letter.")
@@ -96,7 +96,9 @@ print(name,""" thank you for playing!
 You got""", score, "points")
 BOOK=open("scoreboard.txt", 'a')
 x = datetime.datetime.now()
-BOOK.write("\n",name,x,score)
+BOOK.write(name,end=" ")
+BOOK.write(x,end=" ")
+BOOK.write(score)
 time.sleep(1)
 BOOK.close()
 # find a way to decide if the person won the game or not 
