@@ -52,55 +52,105 @@ import os
 import sys
 import time
 import datetime
-def updateWord(word): #function with a parameter
-    for char in word:
-        if char in guesses:
-            print(char,end='') #doesn't work prints nothing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! couldn't ask today ran out of time
-        else:
-            print('_', end =' ')
 
+os.system('cls')
+#Global Variable
 gameWords= ['python','java','trackpad','computer','keyboard','geeks','laptop','headphones','charger','mouse','software','hardware']
 name = input("What is your name?")
 print(name, end= " ")
-answer = input("Do you want to play?").upper()
+# answer = input("Do you want to play?").upper()
 score = 0
-print("\n",gameWords) #delete when code works properly
-while "Y" in answer:
-    print(name,"Good luck")
-    word=random.choice(gameWords)
-    print(word)
-    turns=10 # find better way to create turns in future
-    guesses=''
-    counter=len(word)
-    updateWord(word)
-    while turns >0 and counter>0:
-        newGuess=input("\n\nGive me a letter")
-        if newGuess not in guesses:
-            if newGuess not in word:
-                turns -=1   # turns = turns = -1
-                print("Wrong! You have ", turns, "guesses left")
-            else:
-                counter -=word.count(newGuess) # delete repeated letters
-                print("Nice guess!")
-            guesses += newGuess
+file="scoreboard.txt"
+print("\n",gameWords) 
+dt=datetime.datetime.now()
+linef="\t"+str(dt.month) + "/" + str(dt.day) + "/" + str(dt.year) +"\t"+dt.strftime("%A")+"\t"
+def menu():
+
+        return input("What is your choice")
+def updateWord(word, guesses): #function with a parameter
+    for char in word:
+        if char in guesses:
+            print(char,end='') 
         else:
-            print("You already used this letter.")
-        updateWord(word)
-    if counter ==0:
-        print("\nAmazing you are the Champion")
-        score += 1
+            print('_', end =' ')
+def printScore():
+    FileRead=open(file,'r')
+    print(FileRead.read())
+    FileRead.close
+    # Open the file and print the file
+    print()
+def updateScore(score):
+    #open the file and update the score list
+    #date Name Score
+    fileWrite=open(file, 'a')
+    x = datetime.datetime.now()
+    line= name +"\t"+ linef +"\t"+ str(score)
+    fileWrite.write("\n"+ line)
+    fileWrite.close()
+    print()
+def playGame(answer, score):
+    while "Y" in answer:
+        print(name,"Good luck")
+        word=random.choice(gameWords)
+        print(word)
+        turns=10 # find better way to create turns in future
+        guesses=''
+        counter=len(word)
+        updateWord(word, guesses)
+        while turns >0 and counter>0:
+            newGuess=input("\n\nGive me a letter")
+            if newGuess not in guesses:
+                if newGuess not in word:
+                    turns -=1   # turns = turns = -1
+                    print("Wrong! You have ", turns, "guesses left")
+                else:
+                    counter -=word.count(newGuess) # delete repeated letters
+                    print("Nice guess!")
+                guesses += newGuess
+            else:
+                print("You already used this letter.")
+            updateWord(word, guesses)
+        if counter ==0:
+            print("\nAmazing, you are the Champion")
+            score += 1
+        else:
+            print("Sorry, try harder next time")
+        answer = input("Do you want to play again?").upper()
+    updateScore(score)
+#your main program
+check=True
+while check:
+    varChoice = menu()
+    if "1" in varChoice:
+        playGame("Y",score)
+    elif "2" in varChoice:
+        printScore()
     else:
-        print("Sorry, try harder next time")
-    answer = input("Do you want to play again?").upper()
-print(name,""" thank you for playing!
-You got""", score, "points")
-BOOK=open("scoreboard.txt", 'a')
-x = datetime.datetime.now()
-BOOK.write(name,end=" ")
-BOOK.write(x,end=" ")
-BOOK.write(score)
-time.sleep(1)
-BOOK.close()
+        print("Thank you!")
+        check=False
+
+
+
+
+
+
+
+
+
+
+
+# print(name,""" thank you for playing!
+# You got""", score, "points")
+# BOOK=open("scoreboard.txt", 'a')
+
+# BOOK.write(name,end=" ")
+# BOOK.write(x,end=" ")
+# BOOK.write(score)
+# time.sleep(1)
+# BOOK.close()
 # find a way to decide if the person won the game or not 
 # keep a count of how many words they gussed   
 # ask user if the want to play again
+
+
+# Start my main program
