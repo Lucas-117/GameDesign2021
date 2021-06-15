@@ -65,8 +65,12 @@ print("\n",gameWords)
 dt=datetime.datetime.now()
 linef="\t"+str(dt.month) + "/" + str(dt.day) + "/" + str(dt.year) +"\t"+dt.strftime("%A")+"\t"
 def menu():
-
-        return input("What is your choice")
+    print("*"*28)
+    print("*"," "*3,"Choice 1 - Play"," "*4,"*")
+    print("*"," "*3,"Choice 2 = Scores"," "*2,"*")
+    print("*"," "*3,"Choice 3 = Exit"," "*4,"*")
+    print("*"*28)
+    return input("What is your choice? 1,2, or 3?")
 def updateWord(word, guesses): #function with a parameter
     for char in word:
         if char in guesses:
@@ -123,11 +127,18 @@ while check:
     varChoice = menu()
     if "1" in varChoice:
         playGame("Y",score)
+        time.sleep(2)
+        os.system('cls')
+
     elif "2" in varChoice:
         printScore()
+        time.sleep(6)
+        os.system('cls')
     else:
         print("Thank you!")
         check=False
+    time.sleep(2)
+    os.system('cls')
 
 
 
