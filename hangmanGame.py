@@ -48,7 +48,10 @@
 #     print("Goodbye")
 
 import random
-
+import os
+import sys
+import time
+import datetime
 def updateWord(word): #function with a parameter
     for char in word:
         if char in guesses:
@@ -65,7 +68,6 @@ print("\n",gameWords) #delete when code works properly
 while "Y" in answer:
     print(name,"Good luck")
     word=random.choice(gameWords)
-    updateWord(word)
     print(word)
     answer="n"
     turns=10 # find better way to create turns in future
@@ -83,16 +85,20 @@ while "Y" in answer:
             guesses += newGuess
         else:
             print("You already used this letter.")
+        updateWord(word)
     if counter ==0:
         print("\nAmazing you are the Champion")
         score += 1
-        
     else:
         print("Sorry, try harder next time")
-    updateWord(word)
     answer = input("Do you want to play again?").upper()
 print(name,""" thank you for playing!
 You got""", score, "points")
+BOOK=open("scoreboard.txt", 'a')
+x = datetime.datetime.now()
+BOOK.write("\n",name,x,score)
+time.sleep(1)
+BOOK.close()
 # find a way to decide if the person won the game or not 
 # keep a count of how many words they gussed   
 # ask user if the want to play again
