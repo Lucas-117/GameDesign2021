@@ -89,7 +89,7 @@ def dis_message(message):
     text = TitleFont.render(message,1,BLACK)
     screen.blit(text, (200, 200))
     pygame.display.update()
-    #pygame.time.delay(2000)
+    pygame.time.delay(2000)
 #always have a way to close your screen
 def mainFunc():  
     word=random.choice(gameWords).upper()
@@ -125,23 +125,66 @@ def mainFunc():
         if turns == 6:
             dis_message("You lost")
             break
-status = True
-while status:
-    for event in pygame.event.get():
+
+def game_Init():
+    test=True
+    while test:
+       
+        #Print message
         screen.fill(WHITE)
-        rect1=pygame.Rect(300,250,Wbox,Wbox)
-        pygame.draw.rect(screen, BLACK, rect1, width = 1)
-        option1=LetterFont.render("Y",1,BLACK)
-        screen.blit(option1,(300,250))
-        rect2=pygame.Rect(500,250,Wbox,Wbox)
-        pygame.draw.rect(screen, BLACK, rect2, width = 1)
-        option2=LetterFont.render("N",1,BLACK)
-        screen.blit(option2,(500,250))
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mx, my = pygame.mouse.get_pos()
-            if rect1.collidepoint(mx,my):
-                mainFunc()
-            if rect2.collidepoint(mx,my):
-                status = False
-pygame.quit()
-sys.exit()
+        text = WordFont.render("Do you want to play?", 1, BLACK)
+        screen.blit(text, (WIDTH/2 - text.get_width()/2, round(HEIGHT/3)))
+       
+        #rect1
+        rect1=pygame.Rect(150, 350, Wbox*2,Wbox*2)
+        pygame.draw.rect(screen, BLACK, rect1, width=1)
+        text = LetterFont.render("Yes", 1, BLACK)
+        screen.blit(text, (160 , 350))
+       
+        #rect 2
+        rect2=pygame.Rect(550, 350, Wbox*2,Wbox*2)
+        pygame.draw.rect(screen, BLACK, rect2, width=1)
+        text = LetterFont.render("No", 1, BLACK)
+        screen.blit(text, (560 , 350))
+       
+        #Check collide Point and rectangle
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit() 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mx,my= pygame.mouse.get_pos()
+                if rect1.collidepoint((mx,my)):
+                    #call main function
+                    mainFunc()
+                if rect2.collidepoint((mx,my)):
+                    dis_message("goodbye!!")
+                    pygame.quit()
+                    sys.exit()
+        pygame.display.update()
+
+
+game_Init()        
+# check2 = True
+# while check2:
+#     screen.fill(WHITE)
+#     rect1=pygame.Rect(300,250,Wbox,Wbox)
+#     pygame.draw.rect(screen, BLACK, rect1, width = 1)
+#     option1=LetterFont.render("Y",1,BLACK)
+#     screen.blit(option1,(300,250))
+#     rect2=pygame.Rect(500,250,Wbox,Wbox)
+#     pygame.draw.rect(screen, BLACK, rect2, width = 1)
+#     option2=LetterFont.render("N",1,BLACK)
+#     screen.blit(option2,(500,250))
+#     for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 status = False
+#             if event.type == pygame.MOUSEBUTTONDOWN:
+#                 mx, my = pygame.mouse.get_pos()
+#                 if rect1.collidepoint(mx,my):
+#                     mainFunc()
+#                 if rect2.collidepoint(mx,my):
+#                     dis_message("Goodbye")
+#                     status = False
+# pygame.quit()
+# sys.exit()
