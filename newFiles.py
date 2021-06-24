@@ -19,7 +19,7 @@ import time
 #     PENCIL.close()
 # else:
 #     print ("The file does not exist")
-BOOK=open("asdfire.txt", 'a')
-BOOK.write("\n you are awesome")
+BOOK=open("samplefile.txt", 'a')
+BOOK.write("\n this is writing")
 time.sleep(1)
 BOOK.close()
