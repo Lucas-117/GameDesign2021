@@ -380,7 +380,7 @@ def mainFunc(gameover,count,score):
                         playerBullets.pop(playerBullets.index(b))
 
         if lives <=0:
-            pygame.time.delay(3000)
+            pygame.time.delay(1000)
             dis_message("GAME OVER")
             Intialkeypad(initials)
             file= "Meteor Scoreboard.txt"
