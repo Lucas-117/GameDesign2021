@@ -1,7 +1,7 @@
 # Lucas Williams
 # creating an asteroids rip off
 from typing import Text
-import pygame, math, random, sys, time, os
+import pygame, math, random, sys, datetime, os, time
 
 from pygame import display
 
@@ -124,7 +124,7 @@ def levelsmenu(): #prints the level selection screen
                     mx,my= pygame.mouse.get_pos()
                     if rect1a.collidepoint((mx,my)):#tells what level picked, hit escape to leave the selection screen
                         gameover = False
-                        mainFunc(gameover, count)
+                        mainFunc(gameover, count, score)
                         # testingvar="Level 1"
                         # background()
                         # text = TitleFont.render(testingvar, 1, FADED)
@@ -217,8 +217,8 @@ class Bullet(object):
     def __init__(self):
         self.point = player.head
         self.x, self.y = self.point
-        self.w = 2
-        self.h = 2
+        self.w = 4
+        self.h = 4
         self.c = player.cosine
         self.s = player.sine
         self.xv = self.c * 10
@@ -243,8 +243,8 @@ class Asteroid(object): # defines the asteroids
             self.image = M_64
         else:
             self.image = M_128
-        self.w = 32*(2^(rank-1))
-        self.h = 32*(2^(rank-1))#randomizes the asteroids
+        self.w = 32*rank  #orgianlly a more accurate number, makes the biggest asteroid a bit more forgiving
+        self.h = 32*rank #randomizes the asteroids
         self.ranPoint = random.choice([(random.randrange(0,WIDTH-self.w), random.choice([-1*self.h - 5, HEIGHT + 5])), (random.choice([-1*self.w - 5, WIDTH + 5]), random.randrange(0, HEIGHT - self.h))])
         self.x, self.y = self.ranPoint
         if self.x < WIDTH/2:
@@ -262,27 +262,79 @@ class Asteroid(object): # defines the asteroids
         win.blit(self.image, (self.x, self.y))
 
 
-def redrawGameWindow(): # redraws the game window
+def redrawGameWindow(lives, score): # redraws the game window
     win.blit(BG,(-600,-600))
     player.draw(win)
     for a in asteroids:
         a.draw(win)
     for b in playerBullets:
         b.draw(win)
+    text = TitleFont.render("^"*lives, 1, LAZER_BLUE)
+    screen.blit(text, (10, 10))
+    text = TitleFont.render(str(score), 1, FADED)
+    screen.blit(text, ((WIDTH/2)-text.get_width()/2, 10))
+    text = TitleFont.render(str(score), 1, WHITE)
+    screen.blit(text, (((WIDTH/2)-text.get_width()/2)-5, 10-5))
     pygame.display.update()
-    #def
+def Intialkeypad(initials):
+    A=65
+    Wbox=70
+    dist=20
+    letters=[]#an array of arrays   [[x, y, ltr, boolean]]
+    #Define where to start our drawing of 26 letters, 13 letters in each line
+    startx= round ((WIDTH - (Wbox + dist)*13) /2) #int function round
+    starty= round ((HEIGHT/9)*5)
+    #load the letters into our double array
+    check = True
+    while check:
+        background()
+        for i in range(26):
+            x=startx+dist*2+((Wbox + dist)*(i%13))
+            y=starty+((i//13)*(dist + Wbox * 2))
+            letters.append([x,y,chr(A+i), True])
+        for letter in letters:
+            x,y,ltr, see= letter
+            if see:
+                rect1=pygame.Rect(x -Wbox/2,y -Wbox/2,Wbox,Wbox)
+                pygame.draw.rect(screen, FADED, rect1)
+                rect2=pygame.Rect((x -Wbox/2)-3,(y -Wbox/2)-3,Wbox,Wbox)
+                pygame.draw.rect(screen, WHITE, rect2)
+                text=LetterFont.render(ltr,1,BLACK)
+                screen.blit(text,(x -text.get_width()/2,y -text.get_height()/2))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                check = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mx, my = pygame.mouse.get_pos()
+                for letter in letters:
+                    x,y, ltr,see=letter
+                    if see:
+                        rect=pygame.Rect(x-Wbox/2, y-Wbox/2,Wbox,Wbox)
+                        if rect.collidepoint(mx,my):
+                            initials.append(ltr)
+                pygame.time.delay(1000)            
+        text = TitleFont.render(str(initials), 1, FADED)
+        screen.blit(text, ((WIDTH/2)-text.get_width()/2, 10))
+        text = TitleFont.render(str(initials), 1, WHITE)
+        screen.blit(text, (((WIDTH/2)-text.get_width()/2)-5, 10-5))
+        pygame.display.update()
+        
 player = Player()
 playerBullets = []
 asteroids = []
-count = 0 
-def mainFunc(gameover,count):
+initials= []
+count = 0
+score = 0 
+def mainFunc(gameover,count,score):
+    lives = 3
     while not gameover:
         clock.tick(60)
         count += 1
+        score += 1
         if count % 50 == 0:
             ran = random.choice([1,1,1,2,2,3])
             asteroids.append(Asteroid(ran))
-        redrawGameWindow()
+        redrawGameWindow(lives,score)
         player.updateLocation()
         for b in playerBullets:
             b.move()
@@ -293,13 +345,58 @@ def mainFunc(gameover,count):
             a.x += a.xv
             a.y += a.yv
 
-
+            if (player.x >= a.x and player.x <= a.x + a.w) or (player.x + player.w >= a.x and player.x + player.w <= a.x + a.w):
+                if (player.y >= a.y and player.y <= a.y + a.h) or (player.y + player.h >= a.y and player.y + player.h <= a.y + a.h):
+                    lives -= 1
+                    asteroids.pop(asteroids.index(a))
+                    break
             # bullet collision
             for b in playerBullets:
                 if (b.x >= a.x and b.x <= a.x + a.w) or (b.x + b.w >= a.x and b.x + b.w <= a.x + a.w):
                     if (b.y >= a.y and b.y <= a.y + a.h) or (b.y + b.h >= a.y and b.y + b.h <= a.y + a.h):
+                        if a.rank == 3:
+                            score +=2500
+                            na1 = Asteroid(2)
+                            na2 = Asteroid(2)
+                            na1.x = a.x
+                            na2.x = a.x
+                            na1.y = a.y
+                            na2.y = a.y
+                            asteroids.append(na1)
+                            asteroids.append(na2)
+                        elif a.rank == 2:
+                            score += 5000
+                            na1 = Asteroid(1)
+                            na2 = Asteroid(1)
+                            na1.x = a.x
+                            na2.x = a.x
+                            na1.y = a.y
+                            na2.y = a.y
+                            asteroids.append(na1)
+                            asteroids.append(na2)
+                        else:
+                            score += 10000
                         asteroids.pop(asteroids.index(a))
                         playerBullets.pop(playerBullets.index(b))
+
+        if lives <=0:
+            pygame.time.delay(3000)
+            dis_message("GAME OVER")
+            Intialkeypad(initials)
+            file= "Meteor Scoreboard.txt"
+            fileWrite=open(file, 'a')
+            dt=datetime.datetime.now()
+            linef="\t"+str(dt.month) + "/" + str(dt.day) + "/" + str(dt.year) +"\t"+dt.strftime("%A")+"\t"
+            line= str(initials) +"\t"+ linef +"\t"+ str(score)
+            fileWrite.write("\n"+ line)
+            fileWrite.close()
+            gameover=True
+            
+
+            
+
+
+
         KB=pygame.key.get_pressed()
         if KB[pygame.K_UP]:
             player.moveForward()
