@@ -301,23 +301,39 @@ def Intialkeypad(initials):
                 pygame.draw.rect(screen, WHITE, rect2)
                 text=LetterFont.render(ltr,1,BLACK)
                 screen.blit(text,(x -text.get_width()/2,y -text.get_height()/2))
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                check = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mx, my = pygame.mouse.get_pos()
-                for letter in letters:
-                    x,y, ltr,see=letter
-                    if see:
-                        rect=pygame.Rect(x-Wbox/2, y-Wbox/2,Wbox,Wbox)
-                        if rect.collidepoint(mx,my):
-                            initials.append(ltr)
-                pygame.time.delay(1000)            
-        text = TitleFont.render(str(initials), 1, FADED)
-        screen.blit(text, ((WIDTH/2)-text.get_width()/2, 10))
-        text = TitleFont.render(str(initials), 1, WHITE)
-        screen.blit(text, (((WIDTH/2)-text.get_width()/2)-5, 10-5))
-        pygame.display.update()
+        while check:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    check = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mx, my = pygame.mouse.get_pos()
+                    for letter in letters:
+                        x,y, ltr,see=letter
+                        if see:
+                            rect=pygame.Rect(x-Wbox/2, y-Wbox/2,Wbox,Wbox)
+                            if rect.collidepoint(mx,my):
+                                initials.append(ltr)
+                    pygame.time.delay(1000)
+            InitialBox_w= WIDTH*1.5
+            InitialBox_h= HEIGHT/3
+            posIB_x=-(WIDTH/4)
+            posIB_y=-(HEIGHT/10)
+            rect1=pygame.Rect(posIB_x,posIB_y,InitialBox_w,InitialBox_h)
+            pygame.draw.rect(screen, WHITE, rect1)
+            rect2=pygame.Rect((posIB_x)-3,(posIB_y)-3,InitialBox_w,InitialBox_h)
+            pygame.draw.rect(screen, FADED, rect2)
+            text = WordFont.render(("press enter to continue"), 1, BLACK)
+            screen.blit(text, ((WIDTH/2)-text.get_width()/2, 180))       
+            text = TitleFont.render(str(initials), 1, SPACE)
+            screen.blit(text, ((WIDTH/2)-text.get_width()/2, 10))
+            text = TitleFont.render(str(initials), 1, BLACK)
+            screen.blit(text, (((WIDTH/2)-text.get_width()/2)-5, 10-5))
+            pygame.display.update()
+            KB=pygame.key.get_pressed()
+            if KB[pygame.K_RETURN]:
+                check=False
+                break
+                
         
 player = Player()
 playerBullets = []
@@ -387,8 +403,11 @@ def mainFunc(gameover,count,score):
             fileWrite=open(file, 'a')
             dt=datetime.datetime.now()
             linef="\t"+str(dt.month) + "/" + str(dt.day) + "/" + str(dt.year) +"\t"+dt.strftime("%A")+"\t"
-            line= str(initials) +"\t"+ linef +"\t"+ str(score)
-            fileWrite.write("\n"+ line)
+            line= "\t"+ linef +"\t"+ str(score)
+            fileWrite.write("\n")
+            for x in initials:
+                fileWrite.write(str(x))
+            fileWrite.write(line)
             fileWrite.close()
             gameover=True
             
