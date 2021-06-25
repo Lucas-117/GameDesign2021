@@ -60,9 +60,9 @@ def dis_message(message):
 
 def dis_scores(message,v):
     text = LetterFont.render(message,1,FADED)
-    screen.blit(text, (half_WIDTH - text.get_width()/2, round((HEIGHT/7)*(v+1))))
+    screen.blit(text, (half_WIDTH - text.get_width()/2, round((HEIGHT/(10))*(v+1))))
     text = LetterFont.render(message,1,WHITE)
-    screen.blit(text, ((half_WIDTH - text.get_width()/2)-2, round((HEIGHT/7)*(v+1))-2))
+    screen.blit(text, ((half_WIDTH - text.get_width()/2)-2, round((HEIGHT/(10))*(v+1))-2))
     pygame.display.update()
     pygame.time.delay(1000)
     
@@ -399,8 +399,8 @@ def mainFunc(gameover,count,score,lives):
             file= "Meteor Scoreboard.txt"
             fileWrite=open(file, 'a')
             dt=datetime.datetime.now()
-            linef="\t"+str(dt.month) + "/" + str(dt.day) + "/" + str(dt.year) +"\t"+dt.strftime("%A")+"\t"
-            line= "\t"+ linef +"\t"+ str(score)
+            linef=str(dt.month) + "/" + str(dt.day) + "/" + str(dt.year) +"   "+dt.strftime("%A")
+            line= "     "+ linef +"      "+ str(score)
             fileWrite.write("\n")
             for x in initials:
                 fileWrite.write(str(x))
