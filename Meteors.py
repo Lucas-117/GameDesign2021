@@ -64,7 +64,7 @@ def dis_scores(message,v):
     text = LetterFont.render(message,1,WHITE)
     screen.blit(text, ((half_WIDTH - text.get_width()/2)-2, round((HEIGHT/7)*(v+1))-2))
     pygame.display.update()
-    pygame.time.delay(4000)
+    pygame.time.delay(1000)
     
 def levelsmenu(): #prints the level selection screen
     test=True
