@@ -1,3 +1,9 @@
 
 LJW		6/24/2021	Thursday		405
 LJW		6/24/2021	Thursday		645
+LJW		6/25/2021	Friday		196531
+LJW		6/25/2021	Friday		165
+EER		6/25/2021	Friday		5320
+EER		6/25/2021	Friday		25476
+EER		6/25/2021	Friday		440315
+LJW		6/25/2021	Friday		28106

@@ -1,5 +1,5 @@
 # Lucas Williams
-# creating an asteroids rip off
+# creating an asteroids style game
 from typing import Text
 import pygame, math, random, sys, datetime, os, time
 
@@ -42,14 +42,14 @@ FADED=[230,230,230]
     # pygame.time.delay(500)
 #variables for text
 win= pygame.display.set_mode((WIDTH, HEIGHT))
-testingvar=" "
-Wbox=300
+testingvar=" " 
+Wbox=300# standard size for letter boxes
 Hbox=50
-half_WIDTH=WIDTH/2
+half_WIDTH=WIDTH/2 # for ease of use
 half_HEIGHT=HEIGHT/2
 background_x=-600
-background_y=-600
-BG=pygame.image.load("Meteor Images\\background.jpg")
+background_y=-600# default postion due to the size of the background image
+BG=pygame.image.load("Meteor Images\\background.jpg")# loads the custom made images
 PI=pygame.image.load("Meteor Images\\Player Icon.png")
 M_128=pygame.image.load("Meteor Images\\M_128.png")
 M_64=pygame.image.load("Meteor Images\\M_64.png")
@@ -123,32 +123,26 @@ def levelsmenu(): #prints the level selection screen
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mx,my= pygame.mouse.get_pos()
                     if rect1a.collidepoint((mx,my)):#tells what level picked, hit escape to leave the selection screen
+                        dis_message("Level 1")
                         gameover = False
-                        mainFunc(gameover, count, score)
-                        # testingvar="Level 1"
-                        # background()
-                        # text = TitleFont.render(testingvar, 1, FADED)
-                        # screen.blit(text, (WIDTH/2 - text.get_width()/2, round(HEIGHT/6)))
-                        # text = TitleFont.render(testingvar, 1, WHITE)
-                        # screen.blit(text, ((WIDTH/2 - text.get_width()/2)-5, (round(HEIGHT/6))-5))
-                        # pygame.display.update()
+                        lives = 3
+                        score = 0
+                        mainFunc(gameover, count, score, lives)
                         pygame.time.delay(1000)           
                     if rect2a.collidepoint((mx,my)):
-                        testingvar="Level 2"
-                        background()
-                        text = TitleFont.render(testingvar, 1, FADED)
-                        screen.blit(text, (WIDTH/2 - text.get_width()/2, round(HEIGHT/6)))
-                        text = TitleFont.render(testingvar, 1, WHITE)
-                        screen.blit(text, ((WIDTH/2 - text.get_width()/2)-5, (round(HEIGHT/6))-5))
+                        dis_message("Level 2")
+                        gameover = False
+                        lives = 2
+                        score = 5000
+                        mainFunc(gameover, count, score, lives)
                         pygame.display.update()
                         pygame.time.delay(1000)
                     if rect3a.collidepoint((mx,my)):
-                        testingvar="Level 3"
-                        background()
-                        text = TitleFont.render(testingvar, 1, FADED)
-                        screen.blit(text, (WIDTH/2 - text.get_width()/2, round(HEIGHT/6)))
-                        text = TitleFont.render(testingvar, 1, WHITE)
-                        screen.blit(text, ((WIDTH/2 - text.get_width()/2)-5, (round(HEIGHT/6))-5))
+                        dis_message("Level 3")
+                        gameover = False
+                        lives = 1
+                        score = 10000
+                        mainFunc(gameover, count, score, lives)
                         pygame.display.update()
                         pygame.time.delay(1000)
                 if KB[pygame.K_ESCAPE]:
@@ -160,7 +154,7 @@ class Player(object):
         self.img = PI
         self.w = self.img.get_width()
         self.h = self.img.get_height()
-        self.x = half_WIDTH - (self.w/2) #may need to remove the centering parts later
+        self.x = half_WIDTH - (self.w/2) #defining properties of the character
         self.y = half_HEIGHT - (self.h/2)
         self.angle = 0
         self.rotatedSurf = pygame.transform.rotate(self.img, self.angle)
@@ -175,7 +169,7 @@ class Player(object):
         #win.blit(self.img, [self.x, self.y, self.w, self.h])
         win.blit(self.rotatedSurf, self.rotatedRect)
 
-    def turnLeft(self):
+    def turnLeft(self): #def the movement of the spaceship
         self.angle += 5
         self.rotatedSurf = pygame.transform.rotate(self.img, self.angle)
         self.rotatedRect = self.rotatedSurf.get_rect()
@@ -333,16 +327,15 @@ def Intialkeypad(initials):
             if KB[pygame.K_RETURN]:
                 check=False
                 break
-                
+def printScores():
+    print("hello")
         
 player = Player()
 playerBullets = []
 asteroids = []
 initials= []
-count = 0
-score = 0 
-def mainFunc(gameover,count,score):
-    lives = 3
+count = 0 
+def mainFunc(gameover,count,score,lives):
     while not gameover:
         clock.tick(60)
         count += 1
@@ -409,6 +402,7 @@ def mainFunc(gameover,count,score):
                 fileWrite.write(str(x))
             fileWrite.write(line)
             fileWrite.close()
+            initials=[]
             gameover=True
             
 
@@ -487,7 +481,7 @@ def game_Init():
                 if rect1a.collidepoint((mx,my)):
                     levelsmenu()
                 if rect2a.collidepoint((mx,my)):
-                    print("hello")
+                    printScores()
                     #call main function
                     #mainFunc()
                 if rect3a.collidepoint((mx,my)):
