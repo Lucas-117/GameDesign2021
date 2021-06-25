@@ -322,7 +322,7 @@ def Intialkeypad(initials):
             if KB[pygame.K_RETURN]:
                 check=False
                 break
-def printScores(): # prints the scores
+def printScores(): # prints the scores note: unstable if interacted with while printing it will crash
     file="Meteor Scoreboard.txt"
     FileRead=open(file,'r')
     v = 0
