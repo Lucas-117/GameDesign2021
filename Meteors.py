@@ -28,18 +28,6 @@ DARK=[5,5,5]
 SPACE=[20,20,20]
 FADED=[230,230,230]
 
-
-# Words list
-#gameWords= ['python','java','trackpad','computer','keyboard','geeks','laptop','headphones','charger','mouse','software','hardware']
-
-# Load images to list
-# images = []
-# for i in range(7):
-#     image= pygame.image.load("Hangman Images\hangman"+str(i)+ ".png")
-#     images.append(image)
-    # screen.blit(images[i],(80,100))
-    # pygame.display.update()
-    # pygame.time.delay(500)
 #variables for text
 win= pygame.display.set_mode((WIDTH, HEIGHT))
 testingvar=" " 
@@ -69,6 +57,15 @@ def dis_message(message):
     screen.blit(text, (half_WIDTH - text.get_width()/2-5, round(HEIGHT/3)-5))
     pygame.display.update()
     pygame.time.delay(2000)
+
+def dis_scores(message,v):
+    background()
+    text = LetterFont.render(message,1,FADED)
+    screen.blit(text, (half_WIDTH - text.get_width()/2, round((HEIGHT/7)*(v+1))))
+    text = LetterFont.render(message,1,WHITE)
+    screen.blit(text, (half_WIDTH - text.get_width()/2-5, round(HEIGHT/3)-5))
+    pygame.display.update()
+    pygame.time.delay(4000)
     
 def levelsmenu(): #prints the level selection screen
     test=True
@@ -166,8 +163,7 @@ class Player(object):
 
 
     def draw(self, win):
-        #win.blit(self.img, [self.x, self.y, self.w, self.h])
-        win.blit(self.rotatedSurf, self.rotatedRect)
+        win.blit(self.rotatedSurf, self.rotatedRect) #redraws the space ship at the correct angle
 
     def turnLeft(self): #def the movement of the spaceship
         self.angle += 5
@@ -178,7 +174,7 @@ class Player(object):
         self.sine = math.sin(math.radians(self.angle + 90))
         self.head = (self.x + self.cosine * self.w/2, self.y - self.sine * self.h/2)
 
-    def turnRight(self):
+    def turnRight(self):# turns right
         self.angle -= 5
         self.rotatedSurf = pygame.transform.rotate(self.img, self.angle)
         self.rotatedRect = self.rotatedSurf.get_rect()
@@ -187,7 +183,7 @@ class Player(object):
         self.sine = math.sin(math.radians(self.angle + 90))
         self.head = (self.x + self.cosine * self.w/2, self.y - self.sine * self.h/2)
 
-    def moveForward(self):
+    def moveForward(self): #moves in the direction the ship is facing
         self.x += self.cosine * 6
         self.y -= self.sine * 6
         self.rotatedSurf = pygame.transform.rotate(self.img, self.angle)
@@ -197,7 +193,7 @@ class Player(object):
         self.sine = math.sin(math.radians(self.angle + 90))
         self.head = (self.x + self.cosine * self.w/2, self.y - self.sine * self.h/2)
 
-    def updateLocation(self):
+    def updateLocation(self): #keeps the spaceship on the screen, allowing it to drive off one side around to the other 
         if self.x > WIDTH + self.w:
             self.x = 0
         elif self.x < 0 - self.w:
@@ -207,7 +203,7 @@ class Player(object):
         elif self.y < 0 - self.h:
             self.y = HEIGHT
 
-class Bullet(object):
+class Bullet(object):# defines the bullet obj
     def __init__(self):
         self.point = player.head
         self.x, self.y = self.point
@@ -225,7 +221,7 @@ class Bullet(object):
     def draw(self,win):
         pygame.draw.rect(win, LAZER_BLUE, [self.x, self.y, self.w, self.h])
     def checkOffScreen(self):
-        if self.x < -50 or self.x > WIDTH+50 or self.y < -50 or self.y > HEIGHT + 50:
+        if self.x < -50 or self.x > WIDTH+50 or self.y < -50 or self.y > HEIGHT + 50: #if the bullet is offscreen deletes it to make the game less demanding on the processor
             return True
 
 class Asteroid(object): # defines the asteroids
@@ -327,15 +323,22 @@ def Intialkeypad(initials):
             if KB[pygame.K_RETURN]:
                 check=False
                 break
-def printScores():
-    print("hello")
+def printScores(): # prints the scores
+    file="Meteor Scoreboard.txt"
+    FileRead=open(file,'r')
+    v = 0
+    for line in FileRead:
+        dis_scores(line,v)
+        v += 1
+    FileRead.close
+    
         
 player = Player()
 playerBullets = []
 asteroids = []
 initials= []
 count = 0 
-def mainFunc(gameover,count,score,lives):
+def mainFunc(gameover,count,score,lives): 
     while not gameover:
         clock.tick(60)
         count += 1
@@ -344,8 +347,8 @@ def mainFunc(gameover,count,score,lives):
             ran = random.choice([1,1,1,2,2,3])
             asteroids.append(Asteroid(ran))
         redrawGameWindow(lives,score)
-        player.updateLocation()
-        for b in playerBullets:
+        player.updateLocation() #checks if the player is offscreen
+        for b in playerBullets: ##checks if a bullet is offscreen
             b.move()
             if b.checkOffScreen():
                 playerBullets.pop(playerBullets.index(b))
@@ -353,7 +356,7 @@ def mainFunc(gameover,count,score,lives):
         for a in asteroids:
             a.x += a.xv
             a.y += a.yv
-
+            #player collsion 
             if (player.x >= a.x and player.x <= a.x + a.w) or (player.x + player.w >= a.x and player.x + player.w <= a.x + a.w):
                 if (player.y >= a.y and player.y <= a.y + a.h) or (player.y + player.h >= a.y and player.y + player.h <= a.y + a.h):
                     lives -= 1
@@ -388,7 +391,7 @@ def mainFunc(gameover,count,score,lives):
                         asteroids.pop(asteroids.index(a))
                         playerBullets.pop(playerBullets.index(b))
 
-        if lives <=0:
+        if lives <=0: #gives game over and records the scores
             pygame.time.delay(1000)
             dis_message("GAME OVER")
             Intialkeypad(initials)
@@ -410,7 +413,7 @@ def mainFunc(gameover,count,score,lives):
 
 
 
-        KB=pygame.key.get_pressed()
+        KB=pygame.key.get_pressed() #plays the movement functions
         if KB[pygame.K_UP]:
             player.moveForward()
         if KB[pygame.K_RIGHT]:
@@ -423,15 +426,14 @@ def mainFunc(gameover,count,score,lives):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()    
-            if KB[pygame.K_SPACE]:
+            if KB[pygame.K_SPACE]: # Fires the bullets
                     playerBullets.append(Bullet())
                     
 def game_Init():
     test=True
-    while test:
+    while test:# MainMenu
         
         background()
-        #screen.fill(DARK)
         text = TitleFont.render("Meteors", 1, FADED)
         screen.blit(text, (WIDTH/2 - text.get_width()/2, round(HEIGHT/6)))
         text = TitleFont.render("Meteors", 1, WHITE)
