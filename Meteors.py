@@ -394,6 +394,7 @@ def mainFunc(gameover,count,score,lives):
         if lives <=0: #gives game over and records the scores
             pygame.time.delay(1000)
             dis_message("GAME OVER")
+            initials=[]
             Intialkeypad(initials)
             file= "Meteor Scoreboard.txt"
             fileWrite=open(file, 'a')
@@ -405,7 +406,7 @@ def mainFunc(gameover,count,score,lives):
                 fileWrite.write(str(x))
             fileWrite.write(line)
             fileWrite.close()
-            initials=[]
+            
             gameover=True
             
 
