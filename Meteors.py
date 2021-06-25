@@ -62,7 +62,7 @@ def dis_scores(message,v):
     text = LetterFont.render(message,1,FADED)
     screen.blit(text, (half_WIDTH - text.get_width()/2, round((HEIGHT/7)*(v+1))))
     text = LetterFont.render(message,1,WHITE)
-    screen.blit(text, (half_WIDTH - text.get_width()/2-5, round((HEIGHT/7)*(v+1))-1))
+    screen.blit(text, ((half_WIDTH - text.get_width()/2)-2, round((HEIGHT/7)*(v+1))-2))
     pygame.display.update()
     pygame.time.delay(4000)
     
